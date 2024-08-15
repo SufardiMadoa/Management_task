@@ -18,7 +18,7 @@ const routes = [
     ),
   },
   
-  { path: "/admin/login", element: <LoginForm /> },
+  { path: "/", element: <LoginForm /> },
   { path: "*", element: <NotFound /> },
 ];
 
