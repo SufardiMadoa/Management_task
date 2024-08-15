@@ -1,20 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Button } from './components/ui/button'
-
-function App() {
-  const [count, setCount] = useState(0)
-
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { ToastProvider } from './components/ui/toast';
+import { Toaster } from "./components/ui/toaster";
+import routes from "./routes/routesConfig";
+import React, { Suspense } from "react";
+function AppContent() {
+  const location = useLocation();
+  const isDashboardPage = location.pathname.startsWith("/dashboard");
   return (
     <>
-     <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-    <Button>Button</Button>
+      <div className="flex">
+        {/* {isDashboardPage && <Sidebar />} */}
+        {/* <Suspense fallback={<LoadingFallback />}> */}
+          <Routes>
+            {routes.map((route, index) => (
+              <Route key={index} path={route.path} element={route.element} />
+            ))}
+          </Routes>
+        {/* </Suspense> */}
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+function App() {
+  return (
+    <Router>
+      <ToastProvider>
+        <AppContent />
+        <Toaster />
+      </ToastProvider>
+    </Router>
+  );
+}
+
+export default App;
